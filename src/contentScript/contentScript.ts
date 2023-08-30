@@ -79,66 +79,61 @@
 //     }
 // });
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    if (request.action === "ping") {
-        const targetDivId = "main"; // Change this to your desired div's id
-        const targetDiv = document.getElementById(targetDivId);
-        const contentSections = [];
-        let headerText = null;
+function getContentFun() {
 
-        if (targetDiv) {
-            const firstHeader = targetDiv.querySelector('header');
+    const targetDivId = "main"; // Change this to your desired div's id
+    const targetDiv = document.getElementById(targetDivId);
+    const contentSections = [];
+    let headerText = null;
 
-            // Exclude specific <span> elements with a title attribute
-            const excludedSpans = firstHeader.querySelectorAll('span[title]');
+    if (targetDiv) {
+        const firstHeader = targetDiv.querySelector('header');
 
-            excludedSpans.forEach(span => {
-                span.textContent = ''; // Clear the text content of these spans
-            });
+        // Exclude specific <span> elements with a title attribute
+        const excludedSpans = firstHeader.querySelectorAll('span[title]');
 
-            headerText = firstHeader.textContent.trim();
+        excludedSpans.forEach(span => {
+            span.textContent = ''; // Clear the text content of these spans
+        });
 
-            const contentObjects = [];
-            let currentContentObject = null;
+        headerText = firstHeader.textContent.trim();
 
-            // Iterate through each div with class 'focusable-list-item'
-            const elements = targetDiv.querySelectorAll('div.focusable-list-item, span.selectable-text.copyable-text');
-            elements.forEach(element => {
-                if (element.classList.contains('focusable-list-item')) {
-                    // If the element is a focusable div, create a new content object
-                    if (currentContentObject) {
-                        contentObjects.push(currentContentObject);
+
+        //const focusableDivs = targetDiv.querySelectorAll('div.focusable-list-item');
+        //const copyableDivs = targetDiv.querySelectorAll('span.selectable-text.copyable-text span');
+
+        const elements = targetDiv.querySelectorAll('div.focusable-list-item[tabindex="-1"], span.selectable-text.copyable-text');
+
+        elements.forEach(element => {
+            if (element.tagName === 'DIV' &&
+                element.classList.contains('focusable-list-item') &&
+                element.getAttribute('tabindex') === '-1') {
+
+                const contentObject = {
+                    name: element.textContent.trim(),
+                    content: null
+                };
+
+                contentSections.push(contentObject);
+            } else {
+                const lastContentObject = contentSections[contentSections.length - 1];
+                if (lastContentObject) {
+                    if (lastContentObject.content === null) {
+                        lastContentObject.content = []; // Initialize the content array if null
                     }
-
-                    const headerText = element.textContent.trim();
-                    currentContentObject = {
-                        name: headerText,
-                        content: []
-                    };
-                } else {
-                    // If the element is not a focusable div, add its content to the current content object
-                    if (currentContentObject) {
-                        currentContentObject.content.push(element.textContent.trim());
-                    }
+                    lastContentObject.content.push(element.textContent.trim());
                 }
-            });
-
-            // Add the last content object after the loop
-            if (currentContentObject) {
-                contentObjects.push(currentContentObject);
             }
+        });
 
-            // Sending the response (assuming sendResponse is a function)
-            const [response] = await Promise.all([sendResponse({
-                success: true,
-                message: "Message received in content script.",
-                content: contentObjects
-            })]);
+        const contentObject = {
+            [headerText]: contentSections
+        };
 
-
-            return 1;
-        }
+        console.log(contentObject)
+        return 1;
     }
+}
 
-});
+setInterval(getContentFun, 4000)
 

@@ -29,4 +29,4 @@ function sendMessageToContentScript() {
 }
 
 // Send a message every 4 seconds
-setInterval(sendMessageToContentScript, 4000);
+// setInterval(sendMessageToContentScript, 4000);
