@@ -1,67 +1,33 @@
-# React + Vite Chrome Extension Starter
+# React Chrome Extension Boilerplate
 
-![react-vite-chrome-extension](./assets/cover.png)
+## Getting Started
 
-This project is a boilerplate for creating a Google Chrome Extension with React + Vitejs + TailwindCSS.
+1. `yarn` to install dependancies
+2. `yarn dev` to start running the fast development mode Webpack build process that bundle files into the `dist` folder
+3. `yarn add -D <package_name>` to install new packages
 
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
+## Loading The Chrome Extension
 
-## :bulb: Preview
+1. Open Chrome and navigate to `chrome://extensions/`
+2. Toggle on `Developer mode` in the top right corner
+3. Click `Load unpacked`
+4. Select the entire `dist` folder
 
-![react-vite-chrome-extension](./assets/preview.png)
+## Important Initial Steps
 
-## :package: Requirements
+1. `git init` to start a new git repo for tracking your changes, do an initial base commit with all the default files
+2. Update `package.json`, important fields include `author`, `version`, `name` and `description`
+3. Update `manifest.json`, important fields include `version`, `name` and `description`
+4. Update `webpack.commmon.js`, the title in the `getHtmlPlugins` function should be your extension name
 
-- Nodejs v16 LTS
+## Production Build
 
-## :atom_symbol: Development
+1. `yarn build` to generate a minimized production build in the `dist` folder
+2. ZIP the entire `dist` folder (e.g. `dist.zip`)
+3. Publish the ZIP file on the Chrome Web Store Developer Dashboard!
 
-- Clone this repository
+## Important Default Boilerplate Notes
 
-```
-git clone https://github.com/timelessco/react-vite-chrome-extension
-```
-
-- Install dependencies
-
-```
-yarn install
-```
-
-- Start Development Server
-
-```
-yarn dev
-```
-
-## :computer: Production
-
-- Building the chrome extension for production
-
-```
-yarn build
-```
-
-## :rocket: Usage
-
-- You can find the chrome extension contents in the `dist` folder
-- Open `chrome://extension` and turn on Developer Mode.
-- Click the `Load unpacked extension` button.
-- Now, select the `dist` folder.
-- Your extension is ready to use.
-
-### :hamburger: Additional Details
-
-- This boilerplate can be extended even further using [Chrome Extension APIs](https://developer.chrome.com/docs/extensions/reference/)
-- You can use [Content Scripts](https://developer.chrome.com/docs/extensions/mv3/content_scripts/) to inject content into the page or accessing the DOM conent.
-- By using the [Message Passing](https://developer.chrome.com/extensions/messaging) API, you can communicate with the content script and the popup.
-
-## :green_heart: Message
-
-I hope you find this useful. If you have any questions, please create an issue.
-
-## :mortar_board: License
-
-- MIT
+- Folders get flattened, static references to images from HTML do not need to be relative (i.e. `icon.png` instead of `../static/icon.png`)
+- Importing local ts/tsx/css files should be relative, since Webpack will build a dependancy graph using these paths
+- Update the manifest file as per usual for chrome related permissions, references to files in here should also be flattened and not be relative
