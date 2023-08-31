@@ -153,14 +153,69 @@ const targetDiv = document.getElementById(targetDivId);
 
 // =========================================================================
 
+// const scrollStep = 100;
+// let currentScroll = 0;
+//
+// let usersNameArray = [];
+// chrome.storage.local.get(['usersData'], (result) => {
+//     usersNameArray = result.usersData || [];
+// });
+//
+// function scrollAndCheck(element) {
+//     currentScroll += scrollStep;
+//     element.scrollTo(0, currentScroll);
+//
+//     setTimeout(() => {
+//         const isScrolledToBottom = element.scrollHeight - element.clientHeight <= element.scrollTop;
+//
+//         if (!isScrolledToBottom) {
+//             const users = element.querySelectorAll('div[role="gridcell"][aria-colindex="2"]');
+//
+//             users.forEach(user => {
+//                 const firstDiv = user.querySelector('div:first-child');
+//                 if (firstDiv) {
+//                     const userName = firstDiv.textContent.trim();
+//                     if (!usersNameArray.some(obj => obj.userName === userName)) {
+//                         user.click();
+//                         usersNameArray.push({
+//                             userName,
+//                             is_excluded: false,
+//                             last_sync: new Date().toLocaleString(),
+//                             content: `Custom content for ${userName}`
+//                         });
+//
+//                         console.log("New user added:", userName);
+//                     }
+//                 }
+//             });
+//
+//             scrollAndCheck(element);
+//         } else {
+//             console.log("Reached the bottom or no more scrolling possible.");
+//
+//             chrome.storage.local.set({usersData: usersNameArray}, () => {
+//                 console.log('Data stored:', usersNameArray);
+//             });
+//             return 1;
+//         }
+//     }, 100);
+// }
+//
+// let checkIfMainExist = setInterval(() => {
+//     const targetSideDiv = document.querySelector('div[aria-label="Chat list"]');
+//
+//     if (targetSideDiv) {
+//         clearInterval(checkIfMainExist);
+//         const isScroll = document.getElementById("pane-side");
+//         scrollAndCheck(isScroll);
+//     }
+// }, 4000);
+
+//#######################################Click #######
+
 const scrollStep = 100;
 let currentScroll = 0;
-
 let usersNameArray = [];
-chrome.storage.local.get(['usersData'], (result) => {
-   usersNameArray = result.usersData || [];
-});
-
 
 function scrollAndCheck(element) {
     currentScroll += scrollStep;
@@ -170,33 +225,46 @@ function scrollAndCheck(element) {
         const isScrolledToBottom = element.scrollHeight - element.clientHeight <= element.scrollTop;
 
         if (!isScrolledToBottom) {
-            const users = element.querySelectorAll('div[role="gridcell"][aria-colindex="2"]');
+            const users = element.querySelectorAll('div[role="listitem"]');
 
-            users.forEach(user => {
-                const firstDiv = user.querySelector('div:first-child');
-                if (firstDiv) {
-                    const userName = firstDiv.textContent.trim();
-                    if (!usersNameArray.some(obj => obj.userName === userName)) {
-                        usersNameArray.push({
-                            userName,
-                            is_excluded:false,
-                            last_sync:    new Date().toLocaleString(),
-                            content: `Custom content for ${userName}`
-                        });
+            let userIndex = 0;
 
-                        console.log("New user added:", userName);
+            function processNextUser() {
+                if (userIndex < users.length) {
+                    const user = users[userIndex];
+
+                    if (user) {
+
+                        if (user) {
+                            setTimeout(() => {
+                                user.setAttribute('clickable', 'true');
+                                user.click();
+                                // Do something after clicking and waiting for 5 seconds
+                                console.log("Clicked on user and waited for 5 seconds:", user.textContent.trim());
+
+                                userIndex++;
+                                processNextUser();
+                            }, 5000);
+                        } else {
+                            userIndex++;
+                            processNextUser();
+                        }
+                    } else {
+                        userIndex++;
+                        processNextUser();
                     }
+                } else {
+                    scrollAndCheck(element);
                 }
-            });
+            }
 
-            scrollAndCheck(element);
+            processNextUser();
         } else {
             console.log("Reached the bottom or no more scrolling possible.");
 
             chrome.storage.local.set({ usersData: usersNameArray }, () => {
                 console.log('Data stored:', usersNameArray);
             });
-            return 1;
         }
     }, 100);
 }
@@ -211,4 +279,3 @@ let checkIfMainExist = setInterval(() => {
         scrollAndCheck(isScroll);
     }
 }, 4000);
-

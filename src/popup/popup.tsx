@@ -37,7 +37,7 @@ const App = () => {
                 ))}
             </div>
             <div className="content">
-                <div>{activeUser.last_sync}</div>
+                <div>Last Sync: {activeUser.last_sync}</div>
                 <div>
                     Is Excluded:
                     <span>{activeUser.is_excluded ? " Yes" : ' No'}</span>
