@@ -174,6 +174,8 @@ function scrollAndCheck(element) {
                     if (!usersNameArray.some(obj => obj.userName === userName)) {
                         usersNameArray.push({
                             userName,
+                            is_excluded:false,
+                            last_sync:    new Date().toLocaleString(),
                             content: `Custom content for ${userName}`
                         });
 
@@ -185,10 +187,11 @@ function scrollAndCheck(element) {
             scrollAndCheck(element);
         } else {
             console.log("Reached the bottom or no more scrolling possible.");
-            // Update local storage with the new items
+
             chrome.storage.local.set({ usersData: usersNameArray }, () => {
                 console.log('Data stored:', usersNameArray);
             });
+            return 1;
         }
     }, 100);
 }
