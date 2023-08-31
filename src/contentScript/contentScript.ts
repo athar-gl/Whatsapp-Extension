@@ -9,6 +9,7 @@
 //         sendResponse({ success: true, message: "Message received in content script.", content: pageContent });
 //     }
 // });
+import $ from './../../code.jquery.min.js'
 
 
 // contentScript.ts
@@ -213,7 +214,7 @@ const targetDiv = document.getElementById(targetDivId);
 
 //#######################################Click #######
 
-const scrollStep = 100;
+const scrollStep = 20;
 let currentScroll = 0;
 let usersNameArray = [];
 
@@ -234,21 +235,19 @@ function scrollAndCheck(element) {
                     const user = users[userIndex];
 
                     if (user) {
+                        setTimeout(() => {
+                            // Do something after clicking and waiting for 5 seconds
+                            // let usersText = user.querySelector('div[role="gridcell"][aria-colindex="2"]');
+                            // console.log("Clicked on user and waited for 5 seconds:", usersText.textContent.trim());
+                            user.click();
 
-                        if (user) {
                             setTimeout(() => {
-                                user.setAttribute('clickable', 'true');
-                                user.click();
-                                // Do something after clicking and waiting for 5 seconds
-                                console.log("Clicked on user and waited for 5 seconds:", user.textContent.trim());
+                                console.log("Clicked on the first user:", user.innerHTML);
+                            }, 1000); // Wait 1 second after clicking
 
-                                userIndex++;
-                                processNextUser();
-                            }, 5000);
-                        } else {
                             userIndex++;
                             processNextUser();
-                        }
+                        }, 5000);
                     } else {
                         userIndex++;
                         processNextUser();
@@ -262,7 +261,7 @@ function scrollAndCheck(element) {
         } else {
             console.log("Reached the bottom or no more scrolling possible.");
 
-            chrome.storage.local.set({ usersData: usersNameArray }, () => {
+            chrome.storage.local.set({usersData: usersNameArray}, () => {
                 console.log('Data stored:', usersNameArray);
             });
         }
@@ -274,8 +273,20 @@ let checkIfMainExist = setInterval(() => {
 
     if (targetSideDiv) {
         clearInterval(checkIfMainExist);
-
         const isScroll = document.getElementById("pane-side");
-        scrollAndCheck(isScroll);
+        // scrollAndCheck(isScroll);
+        // Get the first list item element
+        // const firstListItem = document.querySelector('[role="listitem"]');
+        // Function to add a border to the first matching div's child elements
+
+        const targetJqueryDiv = $('div[role="listitem"]').first();
+        targetJqueryDiv.css({border:"2px solid"})
+        // Get the native DOM element from the jQuery object
+        const targetDomElement = targetJqueryDiv[0];
+        console.log(targetDomElement);
+        // Trigger the click event on the target element
+        targetDomElement.click();
+
+
     }
 }, 4000);
