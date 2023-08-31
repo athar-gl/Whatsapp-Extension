@@ -28,11 +28,12 @@
     }
   ],
   "permissions": [
-    "activeTab",
-    "tabs",
     "storage",
     "webNavigation",
     "storage",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "tabs",
+    "scripting",
+    "activeTab"
   ]
 }

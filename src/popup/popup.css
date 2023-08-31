@@ -1,5 +1,36 @@
-body {
-  width: 400px;
+.app {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+}
+body{
   height: 400px;
-  background-color: red;
+  width: 600px;
+}
+
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.tab {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+}
+
+.tab.active {
+  background-color: #ddd;
+  border-left-color: #3498db;
+}
+
+.content {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
 }
