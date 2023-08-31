@@ -17,7 +17,6 @@ const App = () => {
         chrome.storage.local.get(['usersData'], (result) => {
             const storedUsersData = result.usersData || [];
             setUsersData(storedUsersData);
-            console.log(storedUsersData)
         });
     }, []);
 

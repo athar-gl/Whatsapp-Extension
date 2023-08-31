@@ -155,7 +155,12 @@ const targetDiv = document.getElementById(targetDivId);
 
 const scrollStep = 100;
 let currentScroll = 0;
+
 let usersNameArray = [];
+chrome.storage.local.get(['usersData'], (result) => {
+   usersNameArray = result.usersData || [];
+});
+
 
 function scrollAndCheck(element) {
     currentScroll += scrollStep;
