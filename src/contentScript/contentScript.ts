@@ -275,9 +275,9 @@ let checkIfMainExist = setInterval(() => {
         clearInterval(checkIfMainExist);
         const isScroll = document.getElementById("pane-side");
         // scrollAndCheck(isScroll);
+
         // Get the first list item element
         // const firstListItem = document.querySelector('[role="listitem"]');
-        // Function to add a border to the first matching div's child elements
 
         const targetJqueryDiv = $('div[role="listitem"]').first();
         targetJqueryDiv.css({border:"2px solid"})
