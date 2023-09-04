@@ -278,15 +278,36 @@ let checkIfMainExist = setInterval(() => {
 
         // Get the first list item element
         // const firstListItem = document.querySelector('[role="listitem"]');
-
         const targetJqueryDiv = $('div[role="listitem"]').first();
-        targetJqueryDiv.css({border:"2px solid"})
-        // Get the native DOM element from the jQuery object
-        const targetDomElement = targetJqueryDiv[0];
-        console.log(targetDomElement);
-        // Trigger the click event on the target element
-        targetDomElement.click();
 
+        targetJqueryDiv.attr('id','firstItem');
+        $('#firstItem').css({border: "2px solid"})
 
+        // Function to simulate a mouse click on a specific element
+        function simulateMouseClick(element) {
+            const event = document.createEvent('MouseEvent');
+            event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+            element.dispatchEvent(event);
+        }
+
+        // Function to simulate mouse movement and click
+        function simulateMouseMovementAndClick() {
+            const targetElement = $('#firstItem'); // Replace with your target div selector
+
+            if (targetElement.length === 0) {
+                console.log('Target element not found.');
+                return;
+            }
+
+            // Simulate mouse movement to the target element
+            const offset = targetElement.offset();
+            const event = $.Event('mousemove', { clientX: offset.left, clientY: offset.top });
+            $('body').trigger(event);
+
+            // Simulate a mouse click on the target element
+            simulateMouseClick(targetElement[0]);
+        }
+
+        simulateMouseMovementAndClick();
     }
 }, 4000);

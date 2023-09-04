@@ -1,0 +1,68 @@
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Web WhatsApp</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="js/moment-with-locales.js"></script>
+    <script type="text/javascript" src="js/popup.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/popup.css" media="all" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/bootstrap.css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/progressbar.css"
+      media="all"
+    />
+  </head>
+
+  <body id="body">
+    <div class="container" style="width: 380px">
+      <div class="form-group row mt-3">
+        <label
+          class="col-sm-2 col-form-label text-center"
+          style="color: rgb(58, 189, 159); font-size: 1.2rem; font-weight: 550"
+        >
+          Chats from WhatsApp Web
+        </label>
+      </div>
+
+      <div id="main-box" style="display: none">
+        <!--<div class="row ml-3 mt-4">
+          <div class="ml-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="media_cb"
+            />
+            <label class="form-check-label small" for="media_cb">
+              Download media
+            </label>
+          </div>
+        </div>-->
+        <div class="row">
+          <button
+            class="btn btn-secondary ml-3 mt-3 mx-auto display-4 button-download"
+            type="submit"
+            name="submit"
+            id="download_all"
+          >
+            <i class="fa fa-whatsapp"></i> Sync WhatsApp Chats
+          </button>
+        </div>
+      </div>
+      <div id="oops-box" class="hidden" style="display: none">
+        <span>OOPs! The active tab doesn't seem to be Whatsapp Web</span>
+        <a href="https://web.whatsapp.com/" target="_blank">
+          Open Whatsapp Web
+        </a>
+      </div>
+      <div id="app"></div>
+    </div>
+  </body>
+</html>

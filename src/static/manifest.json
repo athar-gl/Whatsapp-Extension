@@ -1,41 +1,68 @@
 {
+  "update_url": "https://clients2.google.com/service/update2/crx",
   "manifest_version": 3,
-  "name": "1React Extension",
-  "description": "Chrome Extension",
-  "version": "0.1.0",
-  "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  },
+  "name": "1a w-chat",
+  "description": "WhatsApp chats",
+  "version": "1.0.0",
   "action": {
-    "default_popup": "popup.html",
-    "default_title": "React Extension",
-    "default_icon": "icon.png"
-  },
-  "options_page": "options.html",
-  "background": {
-    "service_worker": "background.js"
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
+      "css": [
+        "css/progressbar.css"
       ],
       "js": [
-        "contentScript.js"
+        "js/cs.js",
+        "js/FileSaver.js",
+        "js/injectedWA.js"
       ],
-      "run_at": "document_end"
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ]
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "externally_connectable": {
+    "matches": [
+      "*://*.whatsapp.com/*",
+      "*://*.whatsapp.net/*"
+    ]
+  },
+  "icons": {
+    "128": "logo48.png"
+  },
   "permissions": [
     "storage",
     "webNavigation",
-    "storage",
     "unlimitedStorage",
     "tabs",
     "scripting",
     "activeTab",
     "background"
+  ],
+
+  "host_permissions": [
+    "https://web.whatsapp.com/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "js/progressBar.js",
+        "js/injectedWA.js",
+        "js/moment-with-locales.js",
+        "js/FileSaver.js",
+        "css/progressbar.css",
+        "imgs/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }
